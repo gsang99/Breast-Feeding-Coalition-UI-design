@@ -1,6 +1,6 @@
 
-<script setup lang="ts">
-import { ref } from 'vue'
+<script setup lang="js">
+import { ref,computed } from 'vue'
 import {
   Dialog,
   DialogPanel,
@@ -23,9 +23,9 @@ import {
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import providerCard from './providerCard.vue'
-import svg from '/src/assets/imagesFolder/tune.svg'
+import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/vue/20/solid'
+import {ProviderCard} from './assets/providerCard.vue'
+import people from './assets/data.js'
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
   { name: 'Team', href: '#', icon: UsersIcon, current: false },
@@ -45,9 +45,21 @@ const userNavigation = [
 ]
 
 const sidebarOpen = ref(true)
+const handleSearch = () => {
+  console.log(searchData.value.search)
+}
+const searchData = ref({
+  search: '',
+})
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value
 } 
+
+const filteredPeople = computed(() => {
+  return people.value.filter(person => 
+    person.name.toLowerCase().includes(search.value.toLowerCase())) 
+})
+
 </script>
 <template>
   <!-- event handler , set boolean to sidebar, then toggle sidebar handler set it to that in order to flip open the sidebar-->
@@ -132,7 +144,7 @@ const toggleSidebar = () => {
        <!--hidden doesnt remove it-->
 
       <!-- Sidebar component, swap this element with another sidebar if you like -->
-      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4 dark:border-white/10 dark:bg-black/10">
+      <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-white bg-white px-6 pb-4 ">
         <div class="flex h-16 shrink-0 items-center">
           <img class="h-8 w-auto dark:hidden" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
           <img class="hidden h-8 w-auto dark:block" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
@@ -172,7 +184,7 @@ const toggleSidebar = () => {
     </div>
 
     <div :class="sidebarOpen ? 'lg:pl-72' : 'lg:pl-0'" class="transition-all duration-300">
-      <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-white/10 dark:bg-gray-900 dark:shadow-none">
+      <div class="sticky top-0 z-40 flex h-21 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-white/10">
         <!-- Mobile toggle -->
         <button type="button" class="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white" @click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
@@ -191,20 +203,17 @@ const toggleSidebar = () => {
         <div class="w-96"></div>
         
         <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 dark:border-white/10 dark:bg-gray-900 dark:shadow-none">
-        <!--  <img :src="svg" alt="tune.svg" class="absolute size-8 left-6 self-center text-gray-400 "aria-hidden="true" /> 
-        <button type="button" class="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900 lg:hidden dark:text-gray-400 dark:hover:text-white" @click="sidebarOpen = true">
-          <span class="sr-only">Open sidebar</span>
-          <Bars3Icon class="size-6" aria-hidden="true" />
+        <!-- This is the search bar area code -->
 
-           
-        </button>-->
-        <!-- </div> -->
-          <!-- <form class="grid flex-1 grid-cols-1" action="#" method="GET">
-            <input name="search" aria-label="Search" class="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6 dark:bg-white dark:text-black dark:placeholder:text-gray-500" placeholder="Search" />
+         <!-- action is actually supposed to hold a url for the search server API, -->
+          <!-- now, we are handeling that through java script, usually theres layering, instead of GET we can have an on click form handler -->
+           <!-- submit is telling us to do something, the .prevent is to stops reload of the page -->
+            <!-- FIX ME:  -->
+          
+          <form class="grid flex-1 grid-cols-1" @submit.prevent="handleSearch"> 
+            <input type="text" v-model="searchData.search" name="search" aria-label="Search" class="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6 dark:bg-white dark:text-black dark:placeholder:text-gray-500" placeholder="Find your provider" />
             <MagnifyingGlassIcon class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400" aria-hidden="true" />
-            Trying to add a button , not going well lol, look inside of the form and search bars, 
-            <img :src="svg" alt="tune.svg" class="absolute size-8 left-6 self-center text-gray-400 "aria-hidden="true" />
-          </form> -->
+          </form> 
           
         
           <div class="flex items-center gap-x-4 lg:gap-x-6">
@@ -215,20 +224,21 @@ const toggleSidebar = () => {
 
             <!-- Separator -->
             <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200 dark:lg:bg-white/10" aria-hidden="true"></div>
-
+          <!--check out flex box on css tailwinds to do the search bar and be in the center, old educational tool flex box froggy (tutorial to get the frog onto lily pads)-->
+           <!--sketch out boxes and data structure with pseudo code, imaging box model ex. search bar, just sketch out the squares on where you need to go and do  -->
             <!-- Profile dropdown -->
             <Menu as="div" class="relative">
               <MenuButton class="relative flex items-center">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">Open user menu</span>
-                <img class="size-8 rounded-full bg-gray-50 outline outline-1 -outline-offset-1 outline-black/5 dark:bg-gray-800 dark:outline-white/10" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                <img class="size-8 rounded-full bg-gray-50 outline-1 -outline-offset-1 outline-black/5 dark:outline-white/10" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                 <span class="hidden lg:flex lg:items-center">
                   <span class="ml-4 text-sm/6 font-semibold text-gray-900 dark:text-white" aria-hidden="true">Tom Cook</span>
                   <ChevronDownIcon class="ml-2 size-5 text-gray-400 dark:text-gray-500" aria-hidden="true" />
                 </span>
               </MenuButton>
               <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
-                <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg outline outline-1 outline-gray-900/5 dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
+                <MenuItems class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg outline-1 outline-gray-900/5 dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10">
                   <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
                     <a :href="item.href" :class="[active ? 'bg-gray-50 outline-none dark:bg-white/5' : '', 'block px-3 py-1 text-sm/6 text-gray-900 dark:text-white']">{{ item.name }}</a>
                   </MenuItem>
@@ -241,7 +251,7 @@ const toggleSidebar = () => {
 
       <main class="py-10">
         <div class="px-4 sm:px-6 lg:px-8">
-          <providerCard />
+          <ProviderCard :people="people" />
         </div>
       </main>
     </div>

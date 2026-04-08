@@ -1,0 +1,68 @@
+export default people =
+{ [
+  {
+    name: 'Nancy Nurse',
+    title: 'Paradigm Representative',
+    role: 'Admin',
+    email: 'janecooper@example.com',
+    telephone: '+1-202-555-0170',
+    svgClass: 'src/assets/imagesFolder/Image.svg',
+  },
+  {
+    name: 'Cody Fisher',
+    title: 'Lead Security Associate',
+    role: 'Admin',
+    email: 'codyfisher@example.com',
+    telephone: '+1-202-555-0114',
+    svgClass: 'src/assets/imagesFolder/image(1).svg',
+  },
+  {
+    name: 'Esther Howard',
+    title: 'Assurance Administrator',
+    email: 'estherhoward@example.com',
+    telephone: '+1-202-555-0143',
+    role: 'Admin',
+    svgClass: 'src/assets/imagesFolder/image(2).svg',
+  },
+  {
+    name: 'Jenny Wilson',
+    title: 'Chief Accountability Analyst',
+    role: 'Admin',
+    email: 'jennywilson@example.com',
+    telephone: '+1-202-555-0184',
+    svgClass: 'src/assets/imagesFolder/image(3).svg',
+  },
+  {
+    name: 'Kristin Watson',
+    title: 'Investor Data Orchestrator',
+    role: 'Admin',
+    email: 'kristinwatson@example.com',
+    telephone: '+1-202-555-0191',
+    svgClass: 'src/assets/imagesFolder/image(4).svg',
+  },
+  {
+    name: 'Cameron Williamson',
+    title: 'Product Infrastructure Executive',
+    role: 'Admin',
+    email: 'cameronwilliamson@example.com',
+    telephone: '+1-202-555-0108',
+    svgClass: 'src/assets/imagesFolder/image(5).svg',
+  },
+  {
+    name: 'Courtney Henry',
+    title: 'Investor Factors Associate',
+    role: 'Admin',
+    email: 'courtneyhenry@example.com',
+    telephone: '+1-202-555-0104',
+    svgClass: 'src/assets/imagesFolder/image(6).svg',
+  },
+  {
+    name: 'Theresa Webb',
+    title: 'Global Division Officer',
+    role: 'Admin',
+    email: 'theresawebb@example.com',
+    telephone: '+1-202-555-0138',
+    svgClass: 'src/assets/imagesFolder/image(7).svg',
+  },
+]
+}

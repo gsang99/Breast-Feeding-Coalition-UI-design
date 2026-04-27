@@ -24,7 +24,7 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import {ChevronDownIcon, MagnifyingGlassIcon} from '@heroicons/vue/20/solid'
-import {ProviderCard} from './assets/providerCard.vue'
+import ProviderCard from './assets/providerCard.vue'
 import people from './assets/data.js'
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -44,9 +44,14 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 
+const filteredPeople = ref(people)
+
 const sidebarOpen = ref(true)
+
 const handleSearch = () => {
   console.log(searchData.value.search)
+  filteredPeople.value = people.filter(person => 
+  person.name.toLowerCase().includes(searchData.value.search.toLowerCase())) 
 }
 const searchData = ref({
   search: '',
@@ -55,10 +60,10 @@ const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value
 } 
 
-const filteredPeople = computed(() => {
-  return people.value.filter(person => 
-    person.name.toLowerCase().includes(search.value.toLowerCase())) 
-})
+// const filteredPeople = computed(() => {
+//   // return people.value.filter(person => 
+//   //   person.name.toLowerCase().includes(search.value.toLowerCase())) 
+// })
 
 </script>
 <template>
@@ -212,6 +217,7 @@ const filteredPeople = computed(() => {
           
           <form class="grid flex-1 grid-cols-1" @submit.prevent="handleSearch"> 
             <input type="text" v-model="searchData.search" name="search" aria-label="Search" class="col-start-1 row-start-1 block size-full bg-white pl-8 text-base text-gray-900 outline-none placeholder:text-gray-400 sm:text-sm/6 dark:bg-white dark:text-black dark:placeholder:text-gray-500" placeholder="Find your provider" />
+            <!-- <li v-for="people in searchData.people" :key="people.key">{{ people.name }}</li> -->
             <MagnifyingGlassIcon class="pointer-events-none col-start-1 row-start-1 size-5 self-center text-gray-400" aria-hidden="true" />
           </form> 
           
@@ -251,7 +257,8 @@ const filteredPeople = computed(() => {
 
       <main class="py-10">
         <div class="px-4 sm:px-6 lg:px-8">
-          <ProviderCard :people="people" />
+          <ProviderCard  v-for="person in filteredPeople" :key="person.key" :person="person"/>
+
         </div>
       </main>
     </div>

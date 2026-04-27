@@ -5,9 +5,13 @@ import  {computed, ref} from 'vue'
 //import people from './data.js'
 
 defineProps({
-  people: {
-    type: Array,
-    required: true
+  person: {
+    name: String,
+    title: String,
+    role: String,
+    email: String,
+    telephone: String,
+    svgClass: String
   }
 })
 
@@ -15,7 +19,7 @@ defineProps({
 
 <template>
   <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    <li v-for="person in people" :key="person.email" class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow dark:divide-white/10 dark:shadow-none dark:outline-1 dark:">
+    <!-- <li v-for="person in people" :key="person.email" class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow dark:divide-white/10 dark:shadow-none dark:outline-1 dark:"> -->
     <!-- <li v-for="person in people" :key="person.name"  ></li> -->
     <!-- v-if="person.name.toLowerCase().includes(searchData.search.toLowerCase())" -->
       <div class="flex flex-col p-8">
@@ -29,7 +33,6 @@ defineProps({
           <div class="-ml-px flex w-0 flex-1">
           </div>
         </div>
-    </li>
   </ul>
 </template>
 

@@ -60,10 +60,7 @@ const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value
 } 
 
-// const filteredPeople = computed(() => {
-//   // return people.value.filter(person => 
-//   //   person.name.toLowerCase().includes(search.value.toLowerCase())) 
-// })
+
 
 </script>
 <template>

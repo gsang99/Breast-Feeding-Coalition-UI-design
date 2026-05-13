@@ -6,6 +6,7 @@ import  {computed, ref} from 'vue'
 
 defineProps({
   person: {
+    key: Number,
     name: String,
     title: String,
     role: String,
@@ -15,24 +16,39 @@ defineProps({
   }
 })
 
+const isOpen = ref(false)
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value
+}
+
+
 </script>
 
 <template>
-  <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    <!-- <li v-for="person in people" :key="person.email" class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow dark:divide-white/10 dark:shadow-none dark:outline-1 dark:"> -->
-    <!-- <li v-for="person in people" :key="person.name"  ></li> -->
-    <!-- v-if="person.name.toLowerCase().includes(searchData.search.toLowerCase())" -->
-      <div class="flex flex-col p-8">
-        <img class="flex rounded-md"  :src="person.svgClass" alt="" />
-        <h3 class="mt-4 text-sm font-medium text-gray-900 dark:text-black">{{ person.name }}</h3>
-        
-      </div>
-      <div>
-        <div class="-mt-px flex divide-x divide-gray-200 dark:divide-white/10">
-          </div>
-          <div class="-ml-px flex w-0 flex-1">
-          </div>
-        </div>
-  </ul>
+  <div class="rounded-lg bg-white shadow dark:outline-1 overflow-hidden">
+
+    <!-- Clickable card header -->
+    <div
+      class="flex flex-col p-8 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+      @click="toggleDropdown"
+    >
+      <img class="flex rounded-md" :src="person.svgClass" :alt="person.name" />
+      <span class="mt-4 text-sm font-medium text-gray-900 dark:text-black">
+        {{ person.name }}
+      </span>
+
+      <!-- Arrow icon -->
+      <span
+        class="mt-2 text-xs text-gray-400 transition-transform duration-300"
+        :class="{ 'rotate-180': isOpen }"
+      >
+        ▼
+      </span>
+    </div>
+
+    <!-- Dropdown component -->
+    <ProviderDropdown :person="person" :isOpen="isOpen" />
+  </div>
 </template>
 
